@@ -2,11 +2,24 @@ import { useState } from "react";
 import "./App.css";
 import tablet1img from "./assets/tablet1.png"
 
+const proverbs = [
+  "Health is wealth.",
+  "An ounce of prevention is worth a pound of cure.",
+  "A healthy outside starts from the inside.",
+  "Prevention is better than cure.",
+  "Take care of your body. It's the only place you have to live.",
+  "The groundwork for all happiness is good health.",
+  "He who has health has hope, and he who has hope has everything."
+];
+
 export default function App(){
 
   const [page,setPage] = useState("welcome");
   const [code,setCode] = useState("");
   const [medicines,setMedicines] = useState([]);
+
+  // Pick a random proverb for each render of welcome page
+  const proverb = proverbs[Math.floor(Math.random() * proverbs.length)];
 
   // -------- VERIFY PRESCRIPTION --------
   const verifyCode = ()=>{
@@ -66,13 +79,22 @@ export default function App(){
     }
   };
 
-  // ================= SCREENS =================
+  // ================= SCREENS m qty
+  // =================
 
   if(page==="welcome"){
     return(
       <div className="center">
-        <h1>MEDIO-TRON</h1>
-        <p>Automated Medical Dispensing System</p>
+        <h1 style={{
+          color:"#8c3a19",
+          letterSpacing:"0.12em",
+          fontFamily:"'Orbitron', sans-serif",
+          fontWeight:700
+        }}>
+          MEDI-O-TRON
+        </h1>
+        <div className="proverb">{proverb}</div>
+        <p style={{fontSize:"2.1rem", color:"#232946", fontWeight:600, margin:"10px 0 20px 0"}}>Automated Medicines Dispensing System</p>
         <button onClick={()=>setPage("prescription")}>Start</button>
       </div>
     )
@@ -89,63 +111,64 @@ export default function App(){
   }
 
   if(page==="medicines"){
-  return(
-    <div className="container">
+    return(
+      <div className="container">
 
-      <div className="medicineLayout">
+        <div className="medicineLayout">
 
-        {/* 🔹 TOP FIXED PRESCRIBED */}
-        <div className="prescribedBox">
-          <h3>Prescribed Medicines</h3>
+          {/* 🔹 TOP FIXED PRESCRIBED */}
+          <div className="prescribedBox">
+            <h3>Prescribed Medicines</h3>
 
-          {medicines.filter(m=>m.prescribed).map(m=>(
-            <div className="card" key={m.id}>
-              <img src={m.image}/>
-              <div className="info">
-                <b>{m.name}</b>
-                <p>₹{m.price}/tab • Stock {m.stock}</p>
-                <div className="qty">
-                  <button onClick={()=>updateQty(m.id,-1)}>-</button>
-                  {m.qty}
-                  <button onClick={()=>updateQty(m.id,1)}>+</button>
+            {medicines.filter(m=>m.prescribed).map(m=>(
+              <div className="card" key={m.id}>
+                <img src={m.image}/>
+                <div className="info">
+                  <b>{m.name}</b>
+                  <p>₹{m.price}/tab • Stock {m.stock}</p>
+                  <div className="qty">
+                    <button onClick={()=>updateQty(m.id,-1)}>-</button>
+                    {m.qty}
+                    <button onClick={()=>updateQty(m.id,1)}>+</button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          {/* 🔹 SCROLLABLE OTHER MEDS */}
+          <div className="otherBox">
+            <h3>Other Medicines</h3>
+
+            {medicines.filter(m=>!m.prescribed).map(m=>(
+              <div className="card" key={m.id}>
+                <img src={m.image}/>
+                <div className="info">
+                  <b>{m.name}</b>
+                  <p>₹{m.price} • Stock {m.stock}</p>
+                  <div className="qty">
+                    <button onClick={()=>updateQty(m.id,-1)}>-</button>
+                    {m.qty}
+                    <button onClick={()=>updateQty(m.id,1)}>+</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
 
-        {/* 🔹 SCROLLABLE OTHER MEDS */}
-        <div className="otherBox">
-          <h3>Other Medicines</h3>
-
-          {medicines.filter(m=>!m.prescribed).map(m=>(
-            <div className="card" key={m.id}>
-              <img src={m.image}/>
-              <div className="info">
-                <b>{m.name}</b>
-                <p>₹{m.price} • Stock {m.stock}</p>
-                <div className="qty">
-                  <button onClick={()=>updateQty(m.id,-1)}>-</button>
-                  {m.qty}
-                  <button onClick={()=>updateQty(m.id,1)}>+</button>
-                </div>
-              </div>
-            </div>
-          ))}
+        {/* 🔹 CHECKOUT BAR */}
+        <div className="floatingBar">
+          <button className="checkoutBtn" onClick={()=>setPage("summary")}>
+            Checkout ₹{total}
+          </button>
         </div>
 
       </div>
+    )
+  }
 
-      {/* 🔹 CHECKOUT BAR */}
-      <div className="floatingBar">
-        <button className="checkoutBtn" onClick={()=>setPage("summary")}>
-          Checkout ₹{total}
-        </button>
-      </div>
-
-    </div>
-  )
-}
   if(page==="summary"){
     return(
       <div className="center">
