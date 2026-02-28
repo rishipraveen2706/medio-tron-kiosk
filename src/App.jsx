@@ -91,14 +91,7 @@ export default function App(){
   if(page==="welcome"){
     return(
       <div className="center">
-        <h1 style={{
-          color:"#8c3a19",
-          letterSpacing:"0.12em",
-          fontFamily:"'Orbitron', sans-serif",
-          fontWeight:700
-        }}>
-          MEDI-O-TRON
-        </h1>
+<h1 className="machineBrand">MEDI-O-TRON</h1>
         <div className="proverb">{proverb}</div>
         <p style={{fontSize:"2.1rem", color:"#232946", fontWeight:600, margin:"10px 0 20px 0"}}>Automated Medicines Dispensing System</p>
         <button onClick={()=>setPage("prescription")}>Start</button>
@@ -120,7 +113,10 @@ export default function App(){
   return(
     <div className="container">
 
-      <h2 className="sectionTitle">Prescribed Medicines</h2>
+      <h2 className="sectionHeader prescribedHeader">
+  <span>Prescribed Medicines</span>
+</h2>
+
 
       <div className="grid list">
         {medicines.filter(m=>m.prescribed).map(m=>(
@@ -140,7 +136,10 @@ export default function App(){
         ))}
       </div>
 
-      <h2 className="sectionTitle otherTitle">Other Medicines</h2>
+      
+      <h2 className="sectionHeader otherHeader">
+        <span>Other Medicines</span>
+      </h2> 
 
       <div className="grid list">
         {medicines.filter(m=>!m.prescribed).map(m=>(
@@ -220,6 +219,7 @@ export default function App(){
     </div>
   )
 }
+
   if(page==="payment"){
     return(
       <div className="center">
