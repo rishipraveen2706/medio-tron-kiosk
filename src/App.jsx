@@ -38,7 +38,7 @@ export default function App(){
     return(
       <div className="center">
         <h1 className="machineBrand">MEDI-O-TRON</h1>
-        <p style={{opacity:.8}}>Smart Medicine Dispensing System</p>
+        <h3 style={{opacity:.8}}>Smart Medicine Dispensing System</h3>
         <button onClick={()=>setPage("prescription")}>Start</button>
       </div>
     )
@@ -145,9 +145,42 @@ export default function App(){
           <h2 className="title-pay">Scan & Pay</h2>
           <img src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=upi://pay?am=${total}`} />
           <br/><br/>
-          <button onClick={()=>setPage("dispensing")}>
-            Payment Done
-          </button>
+          <button
+  onClick={async () => {
+
+    try {
+      setPage("dispensing");
+
+      const res = await fetch(
+        "https://643d-2409-40f4-411f-9850-528b-47bb-cc20-2f1.ngrok-free.app//pick",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+
+      const data = await res.json();
+      console.log(data);
+    
+    setPage("complete");
+          // wait 5 seconds then go to home
+    setTimeout(() => {
+      setPage("welcome");
+    }, 3000);
+
+      
+
+    } catch (err) {
+      console.error(err);
+      alert("Machine connection failed");
+    }
+
+  }}
+>
+  Payment Done
+</button>
         </div>
       </div>
     )
@@ -160,9 +193,22 @@ export default function App(){
       <div className="center">
         <div className="glass">
           <h2 className="title-dispense">Dispensing Medicines…</h2>
-          <p>Please collect from tray</p>
+      
         </div>
       </div>
     )
   }
+  if (page === "complete") {
+  return (
+    <div className="center">
+      <div className="glass">
+        <h1 style={{color:"#4CAF50"}}>
+          Medicines Successfully Dispensed
+        </h1>
+        <h3>Please collect from the tray</h3>
+        <h3>Returning to home...</h3>
+      </div>
+    </div>
+  )
+}
 }
