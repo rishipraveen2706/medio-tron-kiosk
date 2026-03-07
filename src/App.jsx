@@ -152,7 +152,7 @@ export default function App(){
       setPage("dispensing");
 
       const res = await fetch(
-        "https://643d-2409-40f4-411f-9850-528b-47bb-cc20-2f1.ngrok-free.app//pick",
+        "https://inkjet-deutsch-minor-mills.trycloudflare.com/pick",
         {
           method: "POST",
           headers: {
