@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import "./App.css";
 
 import tablet1img from "./assets/tablet1.png";
@@ -11,6 +11,18 @@ export default function App(){
   const [page,setPage]=useState("welcome");
   const [code,setCode]=useState("");
   const [medicines,setMedicines]=useState([]);
+  const [apiUrl,setApiUrl] = useState("");
+  useEffect(()=>{
+
+  fetch("https://2607-2409-40f4-14-f0b0-ee67-57c5-2470-6a74.ngrok-free.app/ngrok-url")
+  .then(res=>res.json())
+  .then(data=>{
+    window.API_URL = data.url;12
+    setApiUrl(data.url);
+    console.log("API URL:",data.url);
+  });
+
+},[]);
 
   const verifyCode=()=>{
     if(!code) return alert("Enter code");
@@ -152,7 +164,7 @@ export default function App(){
       setPage("dispensing");
 
       const res = await fetch(
-        "https://inkjet-deutsch-minor-mills.trycloudflare.com/pick",
+        `${window.API_URL}/pick`,
         {
           method: "POST",
           headers: {
@@ -211,4 +223,5 @@ export default function App(){
     </div>
   )
 }
-}
+
+} 
