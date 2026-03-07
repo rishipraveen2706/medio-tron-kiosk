@@ -14,12 +14,14 @@ export default function App(){
   const [apiUrl,setApiUrl] = useState("");
   useEffect(()=>{
 
-  fetch("https://2607-2409-40f4-14-f0b0-ee67-57c5-2470-6a74.ngrok-free.app/ngrok-url")
+  fetch("/config.json")
   .then(res=>res.json())
   .then(data=>{
-    window.API_URL = data.url;12
-    setApiUrl(data.url);
-    console.log("API URL:",data.url);
+    console.log("API URL:", data.api_url)
+    window.API_URL = data.api_url;
+
+    setApiUrl(data.api_url);
+    
   });
 
 },[]);
