@@ -36,17 +36,26 @@ const verifyCode = async () => {
   try {
 
     const formattedCode = code.toUpperCase();
-
     const url = `${window.API_URL}/verify-code/${formattedCode}`;
+
     console.log("Calling:", url);
 
-    const res = await fetch(url);
+    const res = await fetch(url,{
+      headers:{
+        "Content-Type":"application/json",
+        "ngrok-skip-browser-warning":"true"
+      }
+    });
+
     const data = await res.json();
 
     console.log("API response:", data);
 
     if (data.valid === true) {
+
+      setMedicines(data.medicines || []);
       setPage("medicines");
+
     } else {
       alert("Invalid Prescription Code");
     }
