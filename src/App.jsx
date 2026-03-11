@@ -26,20 +26,37 @@ export default function App(){
 
 },[]);
 
-  const verifyCode=()=>{
-    if(!code) return alert("Enter code");
+const verifyCode = async () => {
 
-    const data=[
-      {id:1,name:"Paracetamol 500mg",price:2,stock:120,qty:10,prescribed:true,image:tablet1img},
-      {id:2,name:"Amoxicillin 500mg",price:12,stock:60,qty:5,prescribed:true,image:tablet2img},
-      {id:3,name:"Vitamin C",price:5,stock:200,qty:0,prescribed:false,image:tablet3img},
-      {id:4,name:"Cough Syrup",price:85,stock:30,qty:0,prescribed:false,image:tablet4img},
-    ];
+  if (!code) {
+    alert("Enter Prescription Code");
+    return;
+  }
 
-    setMedicines(data);
-    setPage("medicines");
-  };
+  try {
 
+    const formattedCode = code.toUpperCase();
+
+    const url = `${window.API_URL}/verify-code/${formattedCode}`;
+    console.log("Calling:", url);
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    console.log("API response:", data);
+
+    if (data.valid === true) {
+      setPage("medicines");
+    } else {
+      alert("Invalid Prescription Code");
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert("Machine connection failed");
+  }
+
+};
   const updateQty=(id,c)=>{
     setMedicines(prev=>prev.map(m=>m.id===id?{...m,qty:Math.max(0,m.qty+c)}:m));
   };
@@ -165,15 +182,17 @@ export default function App(){
     try {
       setPage("dispensing");
 
-      const res = await fetch(
-        `${window.API_URL}/pick`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
-      );
+      const res = await fetch(`${window.API_URL}/pick`,{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json",
+          "ngrok-skip-browser-warning":"true"
+         
+        },
+          body: JSON.stringify({
+    code: code.toUpperCase()
+  })
+      });
 
       const data = await res.json();
       console.log(data);
