@@ -57,11 +57,7 @@
       console.log("API response:", data);
   console.log("Medicines array full:", data.medicines);
 
-  const apiMeds = Array.isArray(data.medicines) ? data.medicines : [];
 
-  apiMeds.forEach((m, i) => {
-    console.log(`Medicine ${i}:`, m);
-  });
 
       if (data.valid === true) {
 
@@ -82,17 +78,11 @@
     {id:14,name:"Tablet 14",price:24,stock:50,image:tablet2img},
     {id:15,name:"Tablet 15",price:27,stock:50,image:tablet3img}
   ];
+  const prescription = data.medicines || {};
 
-  const prescription = {};
+console.log("Prescription lookup:", prescription);
 
-  apiMeds.forEach(m => {
-    const medId = m.id || m.medicine_id || m.med_id || m.name;
-    const qty = m.qty || m.quantity || 0;
 
-    if (medId !== undefined && medId !== null) {
-      prescription[Number(medId)] = qty;
-    }
-  });
 
   console.log("Prescription lookup:", prescription);
 
