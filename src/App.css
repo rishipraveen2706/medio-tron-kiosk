@@ -155,13 +155,26 @@ input{
 
 .checkoutBtn{
   position:fixed;
-  bottom:40px;
-  right:40px;
-  font-size:22px;
-  padding:20px 38px;
-  border-radius:18px;
-}
+  bottom:30px;
+  right:30px;
 
+  width:220px;            /* fixed small width */
+  height:60px;
+
+  font-size:18px;
+  font-weight:600;
+
+  border:none;
+  border-radius:35px;
+
+  background:linear-gradient(90deg,#6b6df6,#a855f7);
+  color:white;
+
+  cursor:pointer;
+  box-shadow:0 8px 25px rgba(0,0,0,0.4);
+
+  z-index:1000;
+}
 /* -------- SUMMARY -------- */
 
 .summaryCard{
@@ -212,4 +225,86 @@ input{
   color:#38bdf8;
   margin-top:-10px;     /* moves text slightly upward */
   margin-bottom:10px;   /* keeps spacing neat */
+}
+/* horizontal scroll */
+
+.horizontalScroll{
+  display:flex;
+  gap:24px;
+  overflow-x:auto;
+  padding-bottom:10px;
+  margin-bottom:30px;
+  scroll-behavior:smooth;
+}
+
+.horizontalScroll::-webkit-scrollbar{
+  height:6px;
+}
+
+.horizontalScroll::-webkit-scrollbar-thumb{
+  background:#6366f1;
+  border-radius:10px;
+}
+
+/* horizontal card size */
+
+.card{
+  min-width:260px;
+  flex-shrink:0;
+}
+
+/* -------- MEDICINE GRID (KIOSK STYLE) -------- */
+
+.medicineGrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:25px;
+  margin-bottom:40px;
+}
+
+/* -------- CARD -------- */
+
+.medicineCard{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(12px);
+  border-radius:20px;
+  padding:22px;
+  text-align:center;
+  transition:.25s;
+}
+
+.medicineCard:hover{
+  transform:translateY(-5px);
+  box-shadow:0 12px 40px rgba(0,0,0,.45);
+}
+
+.medicineCard img{
+  width:90px;
+  height:90px;
+  margin-bottom:10px;
+}
+
+.medicineCard h3{
+  font-size:20px;
+}
+
+.medicineCard p{
+  opacity:.7;
+  font-size:14px;
+}
+
+/* qty buttons */
+
+.qty{
+  margin-top:10px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+
+.qty button{
+  width:42px;
+  height:42px;
+  font-size:22px;
 }
